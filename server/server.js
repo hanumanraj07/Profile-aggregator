@@ -9,9 +9,37 @@ const { ensureAdminUser } = require("./services/adminSeedService");
 
 const app = express();
 
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  ...(process.env.CLIENT_URLS || "").split(",")
+]
+  .map((origin) => origin?.trim())
+  .filter(Boolean);
+
+const isAllowedOrigin = (origin) => {
+  if (!origin) return true;
+  if (allowedOrigins.includes(origin)) return true;
+
+  // Allow Render-hosted frontends when explicitly running in production.
+  if (process.env.NODE_ENV === "production" && /^https:\/\/.*\.onrender\.com$/i.test(origin)) {
+    return true;
+  }
+
+  return false;
+};
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || "*"
+    origin(origin, callback) {
+      if (isAllowedOrigin(origin)) {
+        callback(null, true);
+        return;
+      }
+
+      callback(new Error(`CORS blocked for origin: ${origin}`));
+    },
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"]
   })
 );
 app.use(express.json({ limit: "1mb" }));

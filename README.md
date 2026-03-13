@@ -57,6 +57,7 @@ Copy `server/.env.example` to `server/.env`, then set:
 PORT=5001
 MONGODB_URI=your_mongodb_connection_string
 CLIENT_URL=http://localhost:5173
+CLIENT_URLS=https://your-frontend.onrender.com,https://another-frontend-domain.com
 JWT_SECRET=your_long_random_secret
 ADMIN_EMAIL=admin@devprofile.local
 ADMIN_PASSWORD=your_admin_password
@@ -171,4 +172,3 @@ Expected:
 - Frontend: Vercel
 - Backend: Render
 - Database: MongoDB Atlas
-
