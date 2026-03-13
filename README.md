@@ -61,6 +61,7 @@ CLIENT_URLS=https://your-frontend.onrender.com,https://another-frontend-domain.c
 JWT_SECRET=your_long_random_secret
 ADMIN_EMAIL=admin@devprofile.local
 ADMIN_PASSWORD=your_admin_password
+GITHUB_TOKEN=optional_github_personal_access_token
 YOUTUBE_API_KEY=your_google_youtube_data_api_key
 ```
 
