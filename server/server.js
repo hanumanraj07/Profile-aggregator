@@ -58,7 +58,7 @@ app.use((error, _req, res, _next) => {
   res.status(status).json({ message });
 });
 
-const PORT = Number(process.env.PORT) || 5000;
+const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/dev-profile-aggregator";
 
 async function startServer() {
