@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import ConfirmDialog from "../components/ConfirmDialog";
 import Loader from "../components/Loader";
 import { useToast } from "../components/ToastContext";
 import { profileApi } from "../services/api";
@@ -33,6 +34,7 @@ function Admin() {
   const [saving, setSaving] = useState(false);
   const [editingId, setEditingId] = useState("");
   const [verifyErrors, setVerifyErrors] = useState({});
+  const [confirmDeleteId, setConfirmDeleteId] = useState(null);
   const { pushToast } = useToast();
 
   const loadProfiles = async () => {
@@ -346,7 +348,7 @@ function Admin() {
                   <button type="button" className="btn-secondary px-3 py-1 text-xs" onClick={() => onEdit(profile)}>
                     Edit
                   </button>
-                  <button type="button" className="rounded-xl border border-red-500/50 px-3 py-1 text-xs text-red-300 hover:bg-red-500/15" onClick={() => onDelete(profile._id)}>
+                  <button type="button" className="rounded-xl border border-red-500/50 px-3 py-1 text-xs text-red-300 hover:bg-red-500/15" onClick={() => setConfirmDeleteId(profile._id)}>
                     Delete
                   </button>
                 </div>
@@ -355,6 +357,18 @@ function Admin() {
           ))}
         </div>
       </section>
+      <ConfirmDialog
+        open={!!confirmDeleteId}
+        title="Delete Profile"
+        message="Are you sure you want to delete this developer profile? This action cannot be undone."
+        confirmLabel="Delete"
+        cancelLabel="Cancel"
+        onConfirm={() => {
+          onDelete(confirmDeleteId);
+          setConfirmDeleteId(null);
+        }}
+        onCancel={() => setConfirmDeleteId(null)}
+      />
     </div>
   );
 }
